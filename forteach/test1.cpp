@@ -19,33 +19,42 @@ struct Node {
 };
 
 // 插入節點
+// 插入節點
 Node* insert(Node* head, int coef, int expo) {
     //如果係數是零，直接返回原本的head，這樣才不會輸出多餘的0
     if (coef == 0) return head;
-    
-    // temp用來找要插入在哪裡(34行)
+
+    // temp用來找要插入在哪裡
     Node* temp;
     // 用new跟前面的Node(15行)加一個新節點
     Node* newp = new Node(coef, expo);
-    
+
     // 如果最前面是空的，或是新指數大於舊的head指數
     if (head == nullptr || expo > head->expo) {
-        // 把新的指標指向head，並更新head的位置
         newp->link = head;
         head = newp;
+    } else if (expo == head->expo) { // 如果新指數與head指數相同
+        head->coef += coef;
+        delete newp;
     } else {
-        // 用temp來輔助運算要接在誰後面
         temp = head;
-        // 如果temp不指向空節點，且新指數小於現在指到的節點的指數，就指向下一個節點
-        while (temp->link != nullptr && temp->link->expo >= expo) {
+        // 用temp來輔助運算找出插入位置
+        while (temp->link != nullptr && temp->link->expo > expo) {
             temp = temp->link;
         }
-        //新節點的指向等於輔助指向
-        newp->link = temp->link;
-        temp->link = newp;
-    } 
+        if (temp->link != nullptr && temp->link->expo == expo) {
+            // 如果找到相同指數，合併係數
+            temp->link->coef += coef;
+            delete newp;
+        } else {
+            // 否則插入新節點
+            newp->link = temp->link;
+            temp->link = newp;
+        }
+    }
     return head;
 }
+
 
 
 
