@@ -10,15 +10,18 @@
 
 #include"quick_sort.h"
 #include"merge_sort.h"
+#include"heap_sort.h"
 
 using namespace std;
 void generate_random_array(vector<int> &arr, int size);
 void first_string();
 void SetColorAndBackground(int ForgC, int BackC);
 int init_arr(vector<int>&initial_arr,int &quantity);
-void sort_switch(int &mode,vector<int> &arr,int &size);
+void sort_switch(int &mode,vector<int> &arr,int &size,bool &ascend);
 void second_string();
 void print_sorted_arr(const vector<int>&arr);
+void ask_ascend();
+bool ascend=true;
 //main function
 int main(){
     srand(time(NULL));
@@ -27,11 +30,12 @@ int main(){
     vector<int>initial_arr;
     int sort_mode=0;
     int size=0;
+
     first_string();
     size= init_arr(initial_arr,quantity);
 
     second_string();
-    sort_switch(sort_mode,initial_arr,size);
+    sort_switch(sort_mode,initial_arr,size,ascend);
     print_sorted_arr(initial_arr);
     return 0;
 }
@@ -81,20 +85,23 @@ int init_arr(vector<int>&initial_arr,int &quantity){
 
 
 
-void sort_switch(int &mode,vector<int> &arr,int &size){
+void sort_switch(int &mode,vector<int> &arr,int &size,bool &ascend){
     while(cout<<"mode:" && cin>>mode){
-
+        
         if(mode==1){
-            Quick_Sort(arr.data(),0,size-1);
+            ask_ascend();
+            Quick_Sort(arr.data(),0,size-1,ascend);
             break;
         }
         else if(mode ==2){
+            ask_ascend();
             vector<int>temp_arr(arr.size());
-            Merge_Sort(arr.data(),temp_arr.data(),0,arr.size()-1);
+            Merge_Sort(arr.data(),temp_arr.data(),0,arr.size()-1,ascend);
             break;
         }
         else if(mode == 3){
-           // heap_sort(vector<int>&arr);
+            ask_ascend();
+            Heap_Sort(arr,ascend);
             break;
         }
         else{
@@ -115,6 +122,10 @@ void print_sorted_arr(const vector<int>&arr){
     cout<<endl;
 };
 
+void ask_ascend(){
+    cout<<"ascend(1) or descend(0)(defualt is ascend if no input):";
+    cin>>ascend;
+};
 void SetColorAndBackground(int ForgC, int BackC) {
     #ifdef _WIN32
         // Windows: 使用 SetConsoleTextAttribute
