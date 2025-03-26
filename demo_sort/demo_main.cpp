@@ -21,7 +21,8 @@ void sort_switch(int &mode,vector<int> &arr,int &size,bool &ascend);
 void second_string();
 void print_sorted_arr(const vector<int>&arr);
 void ask_ascend();
-bool ascend=true;
+
+bool ascend=true;//全域變數for降冪or升冪
 //main function
 int main(){
     srand(time(NULL));
