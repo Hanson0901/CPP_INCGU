@@ -2,9 +2,14 @@
 #include<cmath>
 #include<ctime>
 #include<vector>
-#include <windows.h>
-#include"quick_sort.h"
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <unistd.h>
+#endif
 
+#include"quick_sort.h"
+#include"merge_sort.h"
 
 using namespace std;
 void generate_random_array(vector<int> &arr, int size);
@@ -60,7 +65,7 @@ void second_string(){
 int init_arr(vector<int>&initial_arr,int &quantity){
     while(cout<<"quantity:" && cin>>quantity){
 
-        if(quantity<0||quantity>5){
+        if(quantity<1||quantity>5){
             SetColorAndBackground(7,4);
             cout<<"Waring:False input,type quantity again!!\n"<<endl;
             SetColorAndBackground(15,0);
@@ -84,7 +89,8 @@ void sort_switch(int &mode,vector<int> &arr,int &size){
             break;
         }
         else if(mode ==2){
-            //merge_sort(vector<int>&arr);
+            vector<int>temp_arr(arr.size());
+            Merge_Sort(arr.data(),temp_arr.data(),0,arr.size()-1);
             break;
         }
         else if(mode == 3){
@@ -110,6 +116,15 @@ void print_sorted_arr(const vector<int>&arr){
 };
 
 void SetColorAndBackground(int ForgC, int BackC) {
-	WORD wColor = ((BackC & 0x0F) << 4) + (ForgC & 0x0F);
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), wColor);
-};
+    #ifdef _WIN32
+        // Windows: 使用 SetConsoleTextAttribute
+        WORD wColor = ((BackC & 0x0F) << 4) + (ForgC & 0x0F);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), wColor);
+    #else
+        // Linux/macOS: 使用 ANSI Escape Codes
+        int textColor = ForgC % 8;  // 0~7 對應標準顏色
+        int backgroundColor = BackC % 8 + 40; // 背景色碼範圍 40~47
+    
+        cout << "\033[" << backgroundColor << ";3" << textColor << "m";
+    #endif
+    }
