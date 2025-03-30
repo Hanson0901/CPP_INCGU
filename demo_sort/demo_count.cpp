@@ -22,9 +22,10 @@ void sort_switch(int &mode,vector<int> &arr,int &size,bool &ascend);
 void second_string();
 void print_sorted_arr(const vector<int>&arr);
 void ask_ascend();
-//void counting_time(int &size,vector<int>&initial_arr,int &quantity,int &sort_mode);
-bool ascend=true;//全域變數for降冪or升冪
-
+void counting_time(int &size,vector<int>&initial_arr,int &quantity,int &sort_mode);
+bool ascend=true,timer;//全域變數for降冪or升冪 and 計時
+clock_t start, tend;//全域計算時間
+double duration;
 //main function
 int main(){
     srand(time(NULL));
@@ -33,13 +34,13 @@ int main(){
     vector<int>initial_arr;
     int sort_mode=0;
     int size=0;
-
-    first_string();
+    counting_time(size,initial_arr,quantity,sort_mode);
+    /*first_string();
     size= init_arr(initial_arr,quantity);
 
     second_string();
     sort_switch(sort_mode,initial_arr,size,ascend);
-    print_sorted_arr(initial_arr);
+    print_sorted_arr(initial_arr);*/
     return 0;
 }
 
@@ -50,6 +51,62 @@ void generate_random_array(vector<int> &arr, int size) {
     for (int i = 0; i < size; i++) {
         arr.push_back((rand() % 50000)+1); 
     }
+};
+void counting_time(int &size,vector<int>&initial_arr,int &quantity,int &sort_mode){
+    ofstream ofs("timer.txt");
+    while(cout<<"<counting time?"&&cin>>timer>>quantity>>sort_mode){
+        if(!timer){
+            break;
+        }
+        else{
+            size= static_cast<int>(pow(10,quantity));
+            
+            if(sort_mode==1){
+                for(int j=0;j<100;j++){
+                start=clock();
+                for(int i=0;i<10000;i++){
+                    generate_random_array(initial_arr,static_cast<int>(pow(10,quantity))) ;
+                    
+                    Quick_Sort(initial_arr.data(),0,size-1,ascend);
+                    
+                }
+                tend=clock();
+                    duration = double(tend - start) / CLOCKS_PER_SEC;
+                    ofs<<duration<<endl;
+                }
+            }
+            else if(sort_mode==2){
+                for(int j=0;j<100;j++){
+                start=clock();
+                for(int i=0;i<10000;i++){
+                    generate_random_array(initial_arr,static_cast<int>(pow(10,quantity))) ;
+                    vector<int>temp_arr(size);
+                    
+                    Merge_Sort(initial_arr.data(),temp_arr.data(),0,size-1,ascend);
+                    
+                }
+                tend=clock();
+                    duration = double(tend - start) / CLOCKS_PER_SEC;
+                    ofs<<duration<<endl;
+                }
+            }
+            else if(sort_mode==3){
+                for(int j=0;j<100;j++){
+                start=clock();
+                for(int i=0;i<10000;i++){
+                    generate_random_array(initial_arr,static_cast<int>(pow(10,quantity))) ;
+                    
+                    Heap_Sort(initial_arr,ascend);
+                }
+                tend=clock();
+                    duration = double(tend - start) / CLOCKS_PER_SEC;
+                    ofs<<duration<<endl;
+                }
+            }
+            break;
+        }
+    }
+
 };
 
 void first_string(){
