@@ -3,6 +3,7 @@
 #include<ctime>
 #include<vector>
 #include <fstream>
+#include<chrono>
 #ifdef _WIN32
     #include <windows.h>
 #else
@@ -61,45 +62,45 @@ void counting_time(int &size,vector<int>&initial_arr,int &quantity,int &sort_mod
         else{
             size= static_cast<int>(pow(10,quantity));
             
-            if(sort_mode==1){
-                for(int j=0;j<100;j++){
-                start=clock();
-                for(int i=0;i<10000;i++){
-                    generate_random_array(initial_arr,static_cast<int>(pow(10,quantity))) ;
+            if (sort_mode == 1) {
+                for (int j=0; j<100; j++) {
+                    auto start = chrono::high_resolution_clock::now(); // 修改點1
                     
-                    Quick_Sort(initial_arr.data(),0,size-1,ascend);
+                    for (int i=0; i<1000; i++) {
+                        generate_random_array(initial_arr, size);
+                        Quick_Sort(initial_arr.data(), 0, size-1, ascend);
+                    }
                     
-                }
-                tend=clock();
-                    duration = double(tend - start) / CLOCKS_PER_SEC;
-                    ofs<<duration<<endl;
+                    auto end = chrono::high_resolution_clock::now(); // 修改點2
+                    auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count(); // 修改點3
+                    ofs << duration << endl;
                 }
             }
             else if(sort_mode==2){
                 for(int j=0;j<100;j++){
-                start=clock();
-                for(int i=0;i<10000;i++){
+                auto start = chrono::high_resolution_clock::now(); // 修改點1
+                for(int i=0;i<1000;i++){
                     generate_random_array(initial_arr,static_cast<int>(pow(10,quantity))) ;
                     vector<int>temp_arr(size);
                     
                     Merge_Sort(initial_arr.data(),temp_arr.data(),0,size-1,ascend);
                     
                 }
-                tend=clock();
-                    duration = double(tend - start) / CLOCKS_PER_SEC;
-                    ofs<<duration<<endl;
+                auto end = chrono::high_resolution_clock::now(); // 修改點2
+                auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count(); // 修改點3
+                ofs<<duration<<endl;
                 }
             }
             else if(sort_mode==3){
                 for(int j=0;j<100;j++){
-                start=clock();
-                for(int i=0;i<10000;i++){
+                auto start = chrono::high_resolution_clock::now(); // 修改點1
+                for(int i=0;i<1000;i++){
                     generate_random_array(initial_arr,static_cast<int>(pow(10,quantity))) ;
                     
                     Heap_Sort(initial_arr,ascend);
                 }
-                tend=clock();
-                    duration = double(tend - start) / CLOCKS_PER_SEC;
+                auto end = chrono::high_resolution_clock::now(); // 修改點2
+                auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count(); // 修改點3
                     ofs<<duration<<endl;
                 }
             }

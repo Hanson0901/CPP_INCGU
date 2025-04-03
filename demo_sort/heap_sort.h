@@ -15,7 +15,7 @@ void Adjust(std::vector<T> &a, int root, int n, bool ascend) {
                 break;
             }
         else{
-            if (j + 1 > n && a[j] > a[j + 1]) // 若右子節點較大，則 j 指向右子節點
+            if (j + 1 < n && a[j] > a[j + 1]) // 若右子節點較大，則 j 指向右子節點
                 j++;
             if (e <= a[j]) // 若根節點已大於子節點，則結束調整
                 break;
@@ -31,13 +31,13 @@ template <class T>
 void Heap_Sort(std::vector<T> &a,bool ascend) {
     int n = a.size();
 
-    // 建立最大堆 (Max Heap)
+    // 建立堆 (Heap)
     for (int i = n / 2 - 1; i >= 0; i--)
         Adjust(a, i, n,ascend);
 
-    // 依序取出最大值並調整堆積
+    // 依序取出最大、小值並調整堆積
     for (int i = n - 1; i > 0; i--) {
-        std::swap(a[0], a[i]); // 將堆頂 (最大值) 與最後一個元素交換
+        std::swap(a[0], a[i]); // 將堆頂  與最後一個元素交換
         Adjust(a, 0, i,ascend); // 重新調整堆
     }
 }
