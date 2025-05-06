@@ -36,7 +36,8 @@ int main(){
 
     first_string();
     size= init_arr(initial_arr,quantity);
-
+    print_sorted_arr(initial_arr);
+    //cout<<size; for check
     second_string();
     sort_switch(sort_mode,initial_arr,size,ascend);
     print_sorted_arr(initial_arr);
@@ -56,7 +57,7 @@ void first_string(){
 
     cout<<"choice ur quantity for the size of array:"<<endl;
     SetColorAndBackground(15,8);
-    cout<<"(1):10 , (2):100 , (3):1000 , (4):10000 , (5):100000 "<<endl;
+    cout<<"Enter any numbers < 2^32-1 and >= 1"<<endl;
     SetColorAndBackground(15,0);
 };
 
@@ -72,18 +73,22 @@ void second_string(){
 int init_arr(vector<int>&initial_arr,int &quantity){
     while(cout<<"quantity:" && cin>>quantity){
 
-        if(quantity<1||quantity>5){
+        if(quantity<1){
             SetColorAndBackground(7,4);
             cout<<"Waring:False input,type quantity again!!\n"<<endl;
             SetColorAndBackground(15,0);
             first_string();
         }
         else{ 
-            generate_random_array(initial_arr,static_cast<int>(pow(10,quantity))) ;
+            generate_random_array(initial_arr,quantity) ;
             break;
         }
     }
-    return static_cast<int>(pow(10,quantity));
+        // generate_random_array(initial_arr,quantity) ;
+          //  break;}
+
+    //return static_cast<int>(pow(10,quantity));
+    return quantity;
 };
 
 
@@ -99,7 +104,7 @@ void sort_switch(int &mode,vector<int> &arr,int &size,bool &ascend){
         else if(mode ==2){
             ask_ascend();
             vector<int>temp_arr(arr.size());
-            Merge_Sort(arr.data(),temp_arr.data(),0,arr.size()-1,ascend);
+            Merge_Sort(arr.data(),temp_arr.data(),0,size-1,ascend);
             break;
         }
         else if(mode == 3){
@@ -111,7 +116,7 @@ void sort_switch(int &mode,vector<int> &arr,int &size,bool &ascend){
             SetColorAndBackground(7,4);
             cout<<"Waring:False input,choose mode again!!\n"<<endl;
             SetColorAndBackground(15,0);
-            first_string();
+            second_string();
         }
         
         

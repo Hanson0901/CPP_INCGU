@@ -38,7 +38,7 @@
             merged_list[result++]=initList[b++];
         }
         
-        for(int i=l;i<n;i++){
+        for(int i=l;i<=n;i++){
             initList[i]=merged_list[i];
         }
     }
