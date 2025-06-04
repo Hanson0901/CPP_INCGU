@@ -1,0 +1,14 @@
+COPY    START   1000
+FIRST   LDA     ALPHA
+        ADD     ONE
+        STA     BETA
+        LDCH    CHARZ
+        STCH    COUT
+        RSUB
+        ORG     1030
+ALPHA   WORD    5
+ONE     WORD    1
+BETA    RESW    1
+CHARZ   BYTE    C'Z'
+COUT    RESB    1
+        END     FIRST
